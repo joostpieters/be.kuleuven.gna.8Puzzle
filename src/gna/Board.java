@@ -3,7 +3,6 @@ package gna;
 import java.util.ArrayList;
 
 public class Board {
-    private int[][] tiles;
 
     // construct a board from an N-by-N array of tiles
     public Board(int[][] tiles) {
@@ -47,7 +46,7 @@ public class Board {
 
     // does this board position equal y
     public boolean equals(Object y) {
-        if (y == null | !(y instanceof Board)) {
+        if (y == null || !(y instanceof Board)) {
             return false;
         }
         Board otherBoard = (Board) y;
@@ -93,27 +92,18 @@ public class Board {
         return neighbors;
     }
 
-    private Board exch(int firstTile, int secondTile, int firstRow, int firstCol, int secondRow, int secondCol) {
-        int[][] temp = new int[tiles.length][tiles.length];
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles.length; j++) {
-                temp[i][j] = tiles[i][j];
-            }
-        }
-        Board copy = new Board(temp);
-        copy.tiles[firstRow][firstCol] = secondTile;
-        copy.tiles[secondRow][secondCol] = firstTile;
-        return copy;
-    }
-
-
     // return a string representation of the board
     public String toString() {
         String board = "";
         int rowLength = tiles.length;
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
-                String tile = tiles[i][j] + "";
+                String tile;
+                if(tiles[i][j] != 0) {
+                    tile = tiles[i][j] + "";
+                } else {
+                    tile = " ";
+                }
                 if (tile.length() < 2) {
                     tile += " ";
                 }
@@ -127,4 +117,44 @@ public class Board {
         }
         return board;
     }
+
+    // compare two boards based on priority
+    public int compareTo(Board otherBoard) {
+        if (this.priority() > otherBoard.priority()) {
+            return 1;
+        }
+        if (this.priority() == otherBoard.priority()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    public int[][] getTiles() {
+        return tiles;
+    }
+
+    private int priority() {
+        if (PRIORITY_FUNCTION == "HAMMING") {
+            return this.hamming();
+        } else {
+            return this.manhattan();
+        }
+    }
+
+    private Board exch(int firstTile, int secondTile, int firstRow, int firstCol, int secondRow, int secondCol) {
+        int[][] temp = new int[tiles.length][tiles.length];
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                temp[i][j] = tiles[i][j];
+            }
+        }
+        Board copy = new Board(temp);
+        copy.tiles[firstRow][firstCol] = secondTile;
+        copy.tiles[secondRow][secondCol] = firstTile;
+        return copy;
+    }
+
+    private int[][] tiles;
+    private static final String PRIORITY_FUNCTION = "HAMMING";
 }
