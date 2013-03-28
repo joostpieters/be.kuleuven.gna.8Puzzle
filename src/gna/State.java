@@ -15,7 +15,16 @@ public class State implements Comparable<State> {
 
     @Override
     public int compareTo(State state) {
-        return board.compareTo(previous.board);
+        int priority = board.manhattan();
+        int otherPriority = state.getBoard().manhattan();
+        if (priority + moves > otherPriority + state.getMoves()) {
+            return 1;
+        }
+        if (priority + moves == otherPriority + state.getMoves()) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 
     public Board getBoard() {

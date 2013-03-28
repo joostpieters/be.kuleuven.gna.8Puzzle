@@ -76,6 +76,7 @@ public class SolverTest {
         for (Board board : solver.solution()) {
             System.out.println(board);
         }
+
         assertEquals(4, solver.moves());
         assertEquals(-1, impossibleSolver.moves());
     }

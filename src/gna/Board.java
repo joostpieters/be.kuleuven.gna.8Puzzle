@@ -118,28 +118,8 @@ public class Board {
         return board;
     }
 
-    // compare two boards based on priority
-    public int compareTo(Board otherBoard) {
-        if (this.priority() > otherBoard.priority()) {
-            return 1;
-        }
-        if (this.priority() == otherBoard.priority()) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-
     public int[][] getTiles() {
         return tiles;
-    }
-
-    private int priority() {
-        if (PRIORITY_FUNCTION == "HAMMING") {
-            return this.hamming();
-        } else {
-            return this.manhattan();
-        }
     }
 
     private Board exch(int firstTile, int secondTile, int firstRow, int firstCol, int secondRow, int secondCol) {
@@ -156,5 +136,4 @@ public class Board {
     }
 
     private int[][] tiles;
-    private static final String PRIORITY_FUNCTION = "HAMMING";
 }
